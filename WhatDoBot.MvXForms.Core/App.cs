@@ -1,4 +1,5 @@
 ﻿using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace WhatDoBot.MvXForms.Core
                 .RegisterAsLazySingleton();
 
             RegisterNavigationServiceAppStart<MainPageViewModel>();
+
         }
     }
 }

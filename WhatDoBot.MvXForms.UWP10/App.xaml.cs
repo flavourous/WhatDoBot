@@ -1,6 +1,7 @@
 ﻿using MvvmCross.Core.ViewModels;
 using MvvmCross.Forms.Platform;
 using MvvmCross.Forms.Uwp;
+using MvvmCross.Platform;
 using MvvmCross.Platform.Logging;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,6 @@ namespace WhatDoBot.MvXForms.UWP10
 
                 var setup = new Setup(rootFrame, e);
                 setup.Initialize();
-
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

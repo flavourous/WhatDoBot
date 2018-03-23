@@ -17,22 +17,21 @@ namespace WhatDoBot
 
             HostFactory.Run(x =>
             {
-                String botKey = null;
-                x.AddCommandLineDefinition("botKey", b => botKey = b);
-                botKey = "xoxb-331875186982-ebTNK7VU20R0z6QuilFlB9IV";
+                var cctx = new ModelContext();
+                var reader = new DbConfigReader(cctx);
+                x.AddCommandLineDefinition("botKey", reader.SetBotKey);
+                reader.SetBotKey("xoxb-331875186982-ebTNK7VU20R0z6QuilFlB9IV");
 
-                var reader = new JsonConfigOverride(botKey);
+                //x.AfterInstall(reader.InstallConfig);
+                //x.BeforeUninstall(reader.PurgeConfig);
 
-                x.AfterInstall(reader.InstallConfig);
-                x.BeforeUninstall(reader.PurgeConfig);
-
-                x.Service<NoobotHost>(s =>
+                x.Service<WhatDoNoobotHost>(s =>
                 {
-                    s.ConstructUsing(name => new NoobotHost(reader));
+                    s.ConstructUsing(name => );
 
                     s.WhenStarted(n =>
                     {
-                        var cctx = new ModelContext();
+                        
                         cctx.Database.EnsureCreated();
                         n.Start();
                     });

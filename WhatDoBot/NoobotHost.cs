@@ -10,40 +10,28 @@ using System.Threading.Tasks;
 
 namespace WhatDoBot
 {
-    public class NoobotHost
+    public class WhatDoNoobotHost
     {
         private readonly IConfigReader _configReader;
         private INoobotCore _noobotCore;
         private readonly IConfiguration _configuration;
 
-        public NoobotHost(IConfigReader configReader)
+        public WhatDoNoobotHost(IConfigReader configReader)
         {
             _configReader = configReader;
             _configuration = new WhatDoBotConfig();
         }
 
-        public void Start()
+        public async Task Start()
         {
             IContainerFactory containerFactory = new ContainerFactory(_configuration, _configReader, LogManager.GetLogger(GetType()));
             INoobotContainer container = containerFactory.CreateContainer();
             _noobotCore = container.GetNoobotCore();
-
-            Console.WriteLine("Connecting...");
-            _noobotCore
-                .Connect()
-                .ContinueWith(task =>
-                {
-                    if (!task.IsCompleted || task.IsFaulted)
-                    {
-                        Console.WriteLine($"Error connecting to Slack: {task.Exception}");
-                    }
-                })
-                .Wait();
+            await _noobotCore.Connect();
         }
 
         public void Stop()
         {
-            Console.WriteLine("Disconnecting...");
             _noobotCore?.Disconnect();
         }
     }

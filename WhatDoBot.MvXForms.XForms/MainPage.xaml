@@ -9,5 +9,9 @@
                  xmlns:viewModels="clr-namespace:WhatDoBot.MvXForms.Core.ViewModels;assembly=WhatDoBot.MvXForms.Core"
                       Title="WhatDo"
                       x:Class="WhatDoBot.MvXForms.XForms.MainPage">
-    <Label>Hai</Label>
+    <StackLayout Orientation="Vertical">
+        <Label mvx:Bi.nd="Text 'Bot Status:' + BotStatus"/>
+        <Button mvx:Bi.nd="IsEnbled CanStartBot; Command StartBot; Text 'Start ' + CanStartBot"/>
+        <Button mvx:Bi.nd="IsEnbled CanStopBot; Command StopBot; Text 'Stop ' + CanStopBot"/>
+    </StackLayout>
 </views:MvxContentPage>                              
