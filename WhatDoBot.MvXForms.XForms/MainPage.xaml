@@ -35,8 +35,10 @@
             </views:MvxListView.ItemTemplate>
         </views:MvxListView>
         <Entry Grid.Row="2" Grid.ColumnSpan="2" x:Name="keyEntry"/>
-        <Button Grid.Row="2" Grid.Column="2" mvx:Bi.nd="Command SetBotKey" CommandParameter="{Binding Text, Source={Reference keyEntry}}">
-            Set Bot Key
-        </Button>
+        <Button Grid.Row="2" 
+                Grid.Column="2" 
+                mvx:Bi.nd="Command SetBotKey" 
+                Text="Set Bot Key"
+                CommandParameter="{Binding Text, Source={Reference keyEntry}}"/>
     </Grid>
 </views:MvxContentPage>                              

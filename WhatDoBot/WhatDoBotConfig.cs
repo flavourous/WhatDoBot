@@ -153,7 +153,7 @@ namespace WhatDoBot
                             Response.AppendLine();
                             foreach(var it in wd[x])
                             {
-                                Response.AppendLine($"- {it.When.ToShortTimeString()} - {it.Data}");
+                                Response.AppendLine($"{it.When.ToShortTimeString()}: {it.Data}");
                             }
                         }
                         else
