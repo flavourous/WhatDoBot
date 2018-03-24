@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<views:MvxContentPage x:TypeArguments="viewModels:MainPageViewModel"
+<views:MvxContentPage x:TypeArguments="viewModels:UserViewModel"
                       xmlns="http://xamarin.com/schemas/2014/forms"
                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:m="clr-namespace:MvvmCross.Forms.Platform;assembly=MvvmCross.Forms"
@@ -8,7 +8,7 @@
                  xmlns:mvx="clr-namespace:MvvmCross.Forms.Bindings;assembly=MvvmCross.Forms"
                  xmlns:viewModels="clr-namespace:WhatDoBot.MvXForms.Core.ViewModels;assembly=WhatDoBot.MvXForms.Core"
                       Title="WhatDo"
-                      x:Class="WhatDoBot.MvXForms.XForms.MainPage">
+                      x:Class="WhatDoBot.MvXForms.XForms.UserPage">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -19,15 +19,21 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Label mvx:Bi.nd="Text 'Bot Status:' + BotStatus" HorizontalOptions="Center" VerticalOptions="Center"/>
-        <Button mvx:Bi.nd="Command StartBot; Text 'Start'" Grid.Column="1"/>
-        <Button mvx:Bi.nd="Command StopBot; Text 'Stop'" Grid.Column="2"/>
-        <views:MvxListView Grid.Row="1" Grid.ColumnSpan="3" mvx:Bi.nd="ItemsSource Users; ItemClick ViewUserCommand;">
+        <Label mvx:Bi.nd="Text 'User:' + Username" VerticalOptions="Center" HorizontalOptions="Center"/>
+        <Label Grid.Column="1" VerticalOptions="Center" FontSize="Micro">verified</Label>
+        <Switch Grid.Column="2" mvx:Bi.nd="IsToggled Verified;"/>
+        <views:MvxListView Grid.Row="1" Grid.ColumnSpan="3" mvx:Bi.nd="ItemsSource Logs" SeparatorVisibility="Default" SeparatorColor="Black">
             <views:MvxListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem mvx:Bi.nd="Command Delete" Text="Delete"/>
+                        </ViewCell.ContextActions>
                         <ViewCell.View>
-                            <Label mvx:Bi.nd="Text Username + ' - ' + If(Verified, 'Verified', 'Not Verified')"/>
+                            <StackLayout Orientation="Vertical">
+                                <Label mvx:Bi.nd="Text When" HorizontalOptions="End" FontSize="Micro"/>
+                                <Label mvx:Bi.nd="Text What" LineBreakMode="WordWrap"/>
+                            </StackLayout>
                         </ViewCell.View>
                     </ViewCell>
                 </DataTemplate>
