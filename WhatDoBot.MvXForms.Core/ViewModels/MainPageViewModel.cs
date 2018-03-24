@@ -46,7 +46,7 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
             this.navigationService = navigationService;
             dal.Database.EnsureCreated();
             var configReader = new DbConfigReader(dal);
-            configReader.SetBotKey("xoxb-331875186982-ebTNK7VU20R0z6QuilFlB9IV"); // hack for noow
+            SetBotKey = new WhatDoCommand(async k => await configReader.SetBotKey(k as String));
             host = new WhatDoNoobotHost(configReader);
             ModelContext.Changed += GetUsers; GetUsers();
             ViewUserCommand = new MvxAsyncCommand<UserViewModel>(async g => await navigationService.Navigate(g));
@@ -100,6 +100,8 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
                 ch.RaiseCanExecuteChanged(StartBot);
             });
         }
+
+        public WhatDoCommand SetBotKey { get; set; }
 
         public IMvxAsyncCommand<UserViewModel> ViewUserCommand { get; set; }
         IEnumerable<UserViewModel> users;

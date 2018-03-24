@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -33,5 +34,9 @@
                 </DataTemplate>
             </views:MvxListView.ItemTemplate>
         </views:MvxListView>
+        <Entry Grid.Row="2" Grid.ColumnSpan="2" x:Name="keyEntry"/>
+        <Button Grid.Row="2" Grid.Column="2" mvx:Bi.nd="Command SetBotKey" CommandParameter="{Binding Text, Source={Reference keyEntry}}">
+            Set Bot Key
+        </Button>
     </Grid>
 </views:MvxContentPage>                              

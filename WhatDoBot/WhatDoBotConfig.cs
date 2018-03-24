@@ -28,7 +28,7 @@ namespace WhatDoBot
             this.ctx = ctx;
         }
 
-        public void SetBotKey(String botkey)
+        public async Task SetBotKey(String botkey)
         {
             var exist = ctx.Config.Where(x => x.Id == "botkey").FirstOrDefault();
             if (exist != null)
@@ -37,7 +37,7 @@ namespace WhatDoBot
                 ctx.Update(exist);
             }
             else ctx.Config.Add(new ConfigModel { Id = "botkey", Value = botkey });
-            ctx.SaveChanges();
+            await ctx.SaveChangesAsync();
         }
 
         public string SlackApiKey => ctx.Config.Where(x => x.Id == "botkey").Select(x => x.Value).FirstOrDefault();
