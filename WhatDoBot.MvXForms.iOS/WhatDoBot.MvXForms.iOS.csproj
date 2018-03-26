@@ -212,6 +212,20 @@
   <ItemGroup>
     <Content Include="Entitlements.plist" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WhatDoBot.MvXForms.Core\WhatDoBot.MvXForms.Core.csproj">
+      <Project>{af9cf14f-4b22-4dc1-a72f-3b9955bc1466}</Project>
+      <Name>WhatDoBot.MvXForms.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WhatDoBot.MvXForms.XForms\WhatDoBot.MvXForms.XForms.csproj">
+      <Project>{a301500d-d536-4bf2-a0a9-1f2ab76a4975}</Project>
+      <Name>WhatDoBot.MvXForms.XForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WhatDoBot\WhatDoBot.csproj">
+      <Project>{fb82ebaf-49b2-4922-8ff2-c547ab2d4a58}</Project>
+      <Name>WhatDoBot</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

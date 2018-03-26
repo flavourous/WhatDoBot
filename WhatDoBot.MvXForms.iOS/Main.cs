@@ -1,5 +1,7 @@
 ﻿using MvvmCross.Core.ViewModels;
+using MvvmCross.Forms.iOS;
 using MvvmCross.Forms.Platform;
+using MvvmCross.iOS.Platform;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
