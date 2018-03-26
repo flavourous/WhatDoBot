@@ -2,8 +2,11 @@
 using MvvmCross.Forms.iOS;
 using MvvmCross.Forms.Platform;
 using MvvmCross.iOS.Platform;
+using MvvmCross.Platform.Logging;
+using MvvmCross.Platform.Platform;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UIKit;
 
@@ -52,7 +55,7 @@ namespace WhatDoBot.MvXForms.iOS
 
         protected override MvxFormsApplication CreateFormsApplication()
         {
-            return new XamarinForms.App();
+            return new XForms.App();
         }
 
         protected override IMvxApplication CreateApp()
