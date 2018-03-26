@@ -18,22 +18,31 @@ namespace WhatDoBot
             HostFactory.Run(x =>
             {
                 var cctx = new ModelContext();
+                cctx.Database.EnsureCreated();
                 var reader = new DbConfigReader(cctx);
-                x.AddCommandLineDefinition("botKey", reader.SetBotKey);
-                reader.SetBotKey("xoxb-331875186982-ebTNK7VU20R0z6QuilFlB9IV");
-
-                //x.AfterInstall(reader.InstallConfig);
-                //x.BeforeUninstall(reader.PurgeConfig);
+                x.AddCommandLineDefinition("botKey", k =>
+                {
+                    reader.SetBotKey(k).Wait();
+                    Console.WriteLine("Wrote BotKey to configuration table");
+                });
 
                 x.Service<WhatDoNoobotHost>(s =>
                 {
-                    s.ConstructUsing(name => );
+                    s.ConstructUsing(name => new WhatDoNoobotHost(reader));
 
-                    s.WhenStarted(n =>
+                    s.WhenStarted((n,c) =>
                     {
-                        
-                        cctx.Database.EnsureCreated();
-                        n.Start();
+                        try
+                        {
+                            n.Start().Wait();
+                            Console.WriteLine("NooBot Running");
+                            return true;
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine($"Failed to start NooBot{Environment.NewLine}{e.ToString()}");
+                            return false;
+                        }
                     });
 
                     s.WhenStopped(n => n.Stop());
