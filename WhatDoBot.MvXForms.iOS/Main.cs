@@ -65,14 +65,16 @@ namespace WhatDoBot.MvXForms.iOS
 
         protected override IEnumerable<Assembly> GetViewModelAssemblies()
         {
-            var b = base.GetViewModelAssemblies();
-            return b.Concat(new[] { typeof(Core.ViewModels.MainPageViewModel).Assembly });
+            foreach (var s in base.GetViewModelAssemblies())
+                yield return s;
+            yield return typeof(Core.ViewModels.MainPageViewModel).Assembly;
         }
 
         protected override IEnumerable<Assembly> GetViewAssemblies()
         {
-            var b = base.GetViewAssemblies();
-            return b.Concat(new[] { typeof(XForms.MainPage).Assembly });
+            foreach (var b in base.GetViewAssemblies())
+                yield return b;
+            yield return typeof(XForms.MainPage).Assembly;
         }
 
         protected override IMvxTrace CreateDebugTrace()
