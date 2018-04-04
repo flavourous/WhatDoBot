@@ -22,8 +22,8 @@ namespace WhatDoBot.MvXForms.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             TaskCompletionSource<bool> sent = new TaskCompletionSource<bool>();
-            Crashes.FailedToSendErrorReport += (o, e) => sent.SetResult(false);
-            Crashes.SentErrorReport += (o, e) => sent.SetResult(true);
+            Crashes.FailedToSendErrorReport += (o, e) => sent.TrySetResult(false);
+            Crashes.SentErrorReport += (o, e) => sent.TrySetResult(true);
             XForms.App.StartAppCenter();
             Distribute.DontCheckForUpdatesInDebug();
             AppDomain.CurrentDomain.UnhandledException += (o, e) => Console.WriteLine("Exception Raised{0}----------------{0}{1}", Environment.NewLine, e.ExceptionObject);
