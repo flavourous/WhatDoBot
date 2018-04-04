@@ -17,7 +17,7 @@ namespace WhatDoBot.MvXForms.XForms
         {
             AppCenter.Start
             (
-                "ios=new seecret;"
+                "ios=4f435467-8a63-4344-b11f-5ff8e46eb4b8;"
                 + "uwp={Your UWP App secret here};"
                 + "android={Your Android App secret here}",
                 typeof(Analytics),
