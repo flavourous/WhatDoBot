@@ -39,7 +39,7 @@ namespace WhatDoBot.MvXForms.iOS
                 Task.Run(async () =>
                 {
                     var ss = await sent.Task ? "report sent" : "failed to send report";
-                    BeginInvokeOnMainThread(() => sc.load = ss);
+                    BeginInvokeOnMainThread(() => sc.load.Text = ss);
                     await Task.Delay(2000);
                     BeginInvokeOnMainThread(StartMvvMxForms);
                 });
