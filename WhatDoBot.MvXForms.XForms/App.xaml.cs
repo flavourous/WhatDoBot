@@ -7,7 +7,7 @@ using MvvmCross.Forms.Platform;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-
+using Microsoft.AppCenter.Distribute;
 
 namespace WhatDoBot.MvXForms.XForms
 {
@@ -21,7 +21,8 @@ namespace WhatDoBot.MvXForms.XForms
                 + "uwp={Your UWP App secret here};"
                 + "android={Your Android App secret here}",
                 typeof(Analytics),
-                typeof(Crashes)
+                typeof(Crashes),
+                typeof(Distribute)
             );
         }
 

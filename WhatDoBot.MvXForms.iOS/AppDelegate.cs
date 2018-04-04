@@ -21,10 +21,10 @@ namespace WhatDoBot.MvXForms.iOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            SemaphoreSlim s = new SemaphoreSlim(0, 1);
-            Crashes.FailedToSendErrorReport += (o, e) => s.Release();
-            Crashes.SentErrorReport += (o, e) => s.Release();
-            AppCenter.Start("AAPP", typeof(Analytics), typeof(Crashes), typeof(Distribute));
+            TaskCompletionSource<bool> sent = new TaskCompletionSource<bool>();
+            Crashes.FailedToSendErrorReport += (o, e) => sent.SetResult(false);
+            Crashes.SentErrorReport += (o, e) => sent.SetResult(true);
+            XForms.App.StartAppCenter();
             Distribute.DontCheckForUpdatesInDebug();
             AppDomain.CurrentDomain.UnhandledException += (o, e) => Console.WriteLine("Exception Raised{0}----------------{0}{1}", Environment.NewLine, e.ExceptionObject);
             Window = new UIWindow(UIScreen.MainScreen.Bounds);
@@ -38,7 +38,9 @@ namespace WhatDoBot.MvXForms.iOS
                 Window.MakeKeyAndVisible();
                 Task.Run(async () =>
                 {
-                    await s.WaitAsync(10000);
+                    var ss = await sent.Task ? "report sent" : "failed to send report";
+                    BeginInvokeOnMainThread(() => sc.load = ss);
+                    await Task.Delay(2000);
                     BeginInvokeOnMainThread(StartMvvMxForms);
                 });
             }
@@ -74,7 +76,7 @@ namespace WhatDoBot.MvXForms.iOS
     }
     public class SplashController : UIViewController
     {
-        UILabel load, sad;
+        public UILabel load, sad;
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();

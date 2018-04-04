@@ -1,18 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>Xamarin.iOS10</TargetFramework>
-    <TargetFrameworkIdentifier>Xamarin.iOS</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
-    <LanguageTargets Condition="Exists('/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/msbuild/iOS/Xamarin.iOS.CSharp.targets')">/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/msbuild/iOS/Xamarin.iOS.CSharp.targets</LanguageTargets>
-    <DefineConstants>$(DefineConstants);PLATFORM_IOS;XAMARIN_AUTH_INTERNAL</DefineConstants>
-    <OutputType>Exe</OutputType>
-    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchArch>ARM64</MtouchArch>
-    <MtouchLink>Full</MtouchLink>
-  </PropertyGroup>
+    <Choose>
+      <When Condition="Exists('/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/msbuild/iOS/Xamarin.iOS.CSharp.targets')">
+        <PropertyGroup>
+          <TargetFramework>Xamarin.iOS10</TargetFramework>
+          <TargetFrameworkIdentifier>Xamarin.iOS</TargetFrameworkIdentifier>
+          <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+          <LanguageTargets>/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/msbuild/iOS/Xamarin.iOS.CSharp.targets</LanguageTargets>
+          <DefineConstants>$(DefineConstants);PLATFORM_IOS;XAMARIN_AUTH_INTERNAL</DefineConstants>
+          <OutputType>Exe</OutputType>
+          <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+          <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+          <MtouchArch>ARM64</MtouchArch>
+          <MtouchLink>Full</MtouchLink>
+        </PropertyGroup>
+      </When>
+      <Otherwise>
+        <PropertyGroup>
+          <TargetFramework>net461</TargetFramework>
+        </PropertyGroup>
+      </Otherwise>
+  </Choose>
   
   <ItemGroup>
     <None Include="Info.plist" />
