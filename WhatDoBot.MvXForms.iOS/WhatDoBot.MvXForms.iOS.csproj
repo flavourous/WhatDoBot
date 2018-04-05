@@ -7,8 +7,8 @@
     <LanguageTargets Condition="Exists('/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/msbuild/iOS/Xamarin.iOS.CSharp.targets')">
       /Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/msbuild/iOS/Xamarin.iOS.CSharp.targets
     </LanguageTargets>
-    <LanguageTargets Condition="Exists('/Program Files (x86)/Microsoft Visual Studio/2017/Community/MSBuild/Xamarin/iOS/Xamarin.iOS.CSharp.targets')">
-      /Program Files (x86)/Microsoft Visual Studio/2017/Community/MSBuild/Xamarin/iOS/Xamarin.iOS.CSharp.targets
+    <LanguageTargets Condition="Exists('C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Xamarin\iOS\Xamarin.iOS.CSharp.targets')">
+      C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Xamarin\iOS\Xamarin.iOS.CSharp.targets
     </LanguageTargets>
     <DefineConstants>$(DefineConstants);PLATFORM_IOS;XAMARIN_AUTH_INTERNAL</DefineConstants>
     <OutputType>Exe</OutputType>
