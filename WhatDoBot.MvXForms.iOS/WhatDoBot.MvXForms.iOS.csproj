@@ -15,7 +15,7 @@
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARM64</MtouchArch>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>Full</MtouchLink>
   </PropertyGroup>
   
   <ItemGroup>
