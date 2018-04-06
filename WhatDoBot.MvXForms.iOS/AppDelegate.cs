@@ -21,28 +21,27 @@ namespace WhatDoBot.MvXForms.iOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            Window = new UIWindow(UIScreen.MainScreen.Bounds);
             TaskCompletionSource<bool> sent = new TaskCompletionSource<bool>();
+            AppDomain.CurrentDomain.UnhandledException += (o, e) => Console.WriteLine("Exception Raised{0}----------------{0}{1}", Environment.NewLine, e.ExceptionObject);
             Crashes.FailedToSendErrorReport += (o, e) => sent.TrySetResult(false);
             Crashes.SentErrorReport += (o, e) => sent.TrySetResult(true);
             XForms.App.StartAppCenter();
             Distribute.DontCheckForUpdatesInDebug();
-            AppDomain.CurrentDomain.UnhandledException += (o, e) => Console.WriteLine("Exception Raised{0}----------------{0}{1}", Environment.NewLine, e.ExceptionObject);
-            Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
             Distribute.ReleaseAvailable = OnReleaseAvailable;
 
             if (Crashes.HasCrashedInLastSessionAsync().Result)
             {
-                var sc = new SplashController();
-                Window.RootViewController = sc;
-                Window.MakeKeyAndVisible();
-                Task.Run(async () =>
-                {
-                    var ss = await sent.Task ? "report sent" : "failed to send report";
-                    BeginInvokeOnMainThread(() => sc.load.Text = ss);
-                    await Task.Delay(2000);
-                    BeginInvokeOnMainThread(StartMvvMxForms);
-                });
+                sent.Task.Wait();
+                //var sc = new SplashController();
+                //Window.RootViewController = sc;
+                //Window.MakeKeyAndVisible();
+                //Task.Run(async () =>
+                //{
+                //    var ss = await sent.Task ? "report sent" : "failed to send report";
+                //    BeginInvokeOnMainThread(() => sc.load.Text = ss);
+                //});
             }
             else StartMvvMxForms();
             return true;
@@ -61,8 +60,6 @@ namespace WhatDoBot.MvXForms.iOS
 
         void StartMvvMxForms()
         {
-            Window = new UIWindow(UIScreen.MainScreen.Bounds);
-
             var setup = new Setup(this, Window);
             setup.Initialize();
 
@@ -76,6 +73,7 @@ namespace WhatDoBot.MvXForms.iOS
     }
     public class SplashController : UIViewController
     {
+        public UIButton close;
         public UILabel load, sad;
         public override void ViewDidLoad()
         {
@@ -97,12 +95,17 @@ namespace WhatDoBot.MvXForms.iOS
                 TextColor = UIColor.White,
                 Text = "(._.)"
             };
+            close = new UIButton()
+            {
+            };
+            close.SetTitle("Close", UIControlState.Normal);
 
             load.Font = UIFont.BoldSystemFontOfSize(24f);
             sad.Font = UIFont.SystemFontOfSize(24f);
 
             View.AddSubview(load);
             View.AddSubview(sad);
+            View.AddSubview(close);
         }
         public override void ViewDidLayoutSubviews()
         {
