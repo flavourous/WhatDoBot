@@ -12,6 +12,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using UIKit;
 
+//#define LIVE
+
 namespace WhatDoBot.MvXForms.iOS
 {
     [Register("AppDelegate")]
@@ -33,15 +35,26 @@ namespace WhatDoBot.MvXForms.iOS
 
             if (Crashes.HasCrashedInLastSessionAsync().Result)
             {
+#if LIVE
+                var sc = new SplashController();
+                Window.RootViewController = sc;
+                Window.MakeKeyAndVisible();
+                Task.Run(async () =>
+                {
+                    var ss = await sent.Task ? "report sent" : "failed to send report";
+                    BeginInvokeOnMainThread(() => sc.load.Text = ss);
+                });
+#else
+                var rep = Crashes.GetLastSessionCrashReportAsync();
+                var a = new UIAlertView
+                {
+                    Title = "Error",
+                    Message = rep.Exception.ToString()
+                };
+                a.AddButton("OK");
+                a.Show();
                 sent.Task.Wait();
-                //var sc = new SplashController();
-                //Window.RootViewController = sc;
-                //Window.MakeKeyAndVisible();
-                //Task.Run(async () =>
-                //{
-                //    var ss = await sent.Task ? "report sent" : "failed to send report";
-                //    BeginInvokeOnMainThread(() => sc.load.Text = ss);
-                //});
+#endif
             }
             else StartMvvMxForms();
             return true;
