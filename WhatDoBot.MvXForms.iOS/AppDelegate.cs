@@ -12,8 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using UIKit;
 
-//#define LIVE
-
 namespace WhatDoBot.MvXForms.iOS
 {
     [Register("AppDelegate")]
@@ -35,8 +33,10 @@ namespace WhatDoBot.MvXForms.iOS
 
             if (Crashes.HasCrashedInLastSessionAsync().Result)
             {
-#if LIVE
                 var sc = new SplashController();
+                sc.close.PrimaryActionTriggered += (o, e) => StartMvvMxForms();
+                var rep = Crashes.GetLastSessionCrashReportAsync().Result;
+                sc.data.Text = rep.Exception.InnerException.ToString();
                 Window.RootViewController = sc;
                 Window.MakeKeyAndVisible();
                 Task.Run(async () =>
@@ -44,17 +44,6 @@ namespace WhatDoBot.MvXForms.iOS
                     var ss = await sent.Task ? "report sent" : "failed to send report";
                     BeginInvokeOnMainThread(() => sc.load.Text = ss);
                 });
-#else
-                var rep = Crashes.GetLastSessionCrashReportAsync();
-                var a = new UIAlertView
-                {
-                    Title = "Error",
-                    Message = rep.Exception.ToString()
-                };
-                a.AddButton("OK");
-                a.Show();
-                sent.Task.Wait();
-#endif
             }
             else StartMvvMxForms();
             return true;
@@ -87,7 +76,7 @@ namespace WhatDoBot.MvXForms.iOS
     public class SplashController : UIViewController
     {
         public UIButton close;
-        public UILabel load, sad;
+        public UILabel load, sad, data;
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -108,6 +97,11 @@ namespace WhatDoBot.MvXForms.iOS
                 TextColor = UIColor.White,
                 Text = "(._.)"
             };
+            data = new UILabel
+            {
+                TextAlignment = UITextAlignment.Left,
+                TextColor = UIColor.White,
+            };
             close = new UIButton()
             {
             };
@@ -118,6 +112,7 @@ namespace WhatDoBot.MvXForms.iOS
 
             View.AddSubview(load);
             View.AddSubview(sad);
+            View.AddSubview(data);
             View.AddSubview(close);
         }
         public override void ViewDidLayoutSubviews()
@@ -125,9 +120,10 @@ namespace WhatDoBot.MvXForms.iOS
             base.ViewDidLayoutSubviews();
             nfloat h = 31.0f;
             nfloat w = View.Bounds.Width;
-            nfloat t = View.Bounds.Height / 2;
-            load.Frame = new CGRect(10, t - h, w - 20, h);
-            sad.Frame = new CGRect(10, t, w - 20, h);
+            load.Frame = new CGRect(10, 0, w - 20, h);
+            sad.Frame = new CGRect(10, h, w - 20, h);
+            data.Frame = new CGRect(0, h*2, w , View.Bounds.Height - h*3);
+            close.Frame = new CGRect(50, h*3, w - 100, h);
         }
     }
 }
