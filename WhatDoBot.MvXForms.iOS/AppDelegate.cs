@@ -89,7 +89,7 @@ namespace WhatDoBot.MvXForms.iOS
             {
                 TextAlignment = UITextAlignment.Center,
                 TextColor = UIColor.White,
-                Text = "uploading crash data"
+                Text = "uploading crash"
             };
             sad = new UILabel
             {
@@ -109,6 +109,7 @@ namespace WhatDoBot.MvXForms.iOS
 
             load.Font = UIFont.BoldSystemFontOfSize(24f);
             sad.Font = UIFont.SystemFontOfSize(24f);
+            data.Font = UIFont.SystemFontOfSize(12f);
 
             View.AddSubview(load);
             View.AddSubview(sad);
