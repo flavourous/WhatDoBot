@@ -21,23 +21,19 @@ namespace WhatDoBot.MvXForms.iOS
 
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Window = new UIWindow(UIScreen.MainScreen.Bounds);
             TaskCompletionSource<bool> sent = new TaskCompletionSource<bool>();
-            AppDomain.CurrentDomain.UnhandledException += (o, e) => Console.WriteLine("Exception Raised{0}----------------{0}{1}", Environment.NewLine, e.ExceptionObject);
             Crashes.FailedToSendErrorReport += (o, e) => sent.TrySetResult(false);
             Crashes.SentErrorReport += (o, e) => sent.TrySetResult(true);
             XForms.App.StartAppCenter();
             Distribute.DontCheckForUpdatesInDebug();
+            AppDomain.CurrentDomain.UnhandledException += (o, e) => Console.WriteLine("Exception Raised{0}----------------{0}{1}", Environment.NewLine, e.ExceptionObject);
+            Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
             Distribute.ReleaseAvailable = OnReleaseAvailable;
 
             if (Crashes.HasCrashedInLastSessionAsync().Result)
             {
-                sent.Task.Wait();
                 var sc = new SplashController();
-                sc.close.PrimaryActionTriggered += (o, e) => StartMvvMxForms();
-                var rep = Crashes.GetLastSessionCrashReportAsync().Result;
-                sc.data.Text = rep.Exception.InnerException.ToString();
                 Window.RootViewController = sc;
                 Window.MakeKeyAndVisible();
                 Task.Run(async () =>
@@ -76,8 +72,7 @@ namespace WhatDoBot.MvXForms.iOS
     }
     public class SplashController : UIViewController
     {
-        public UIButton close;
-        public UILabel load, sad, data;
+        public UILabel load, sad;
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -98,24 +93,12 @@ namespace WhatDoBot.MvXForms.iOS
                 TextColor = UIColor.White,
                 Text = "(._.)"
             };
-            data = new UILabel
-            {
-                TextAlignment = UITextAlignment.Left,
-                TextColor = UIColor.White,
-            };
-            close = new UIButton()
-            {
-            };
-            close.SetTitle("Close", UIControlState.Normal);
 
             load.Font = UIFont.BoldSystemFontOfSize(24f);
             sad.Font = UIFont.SystemFontOfSize(24f);
-            data.Font = UIFont.SystemFontOfSize(12f);
 
             View.AddSubview(load);
             View.AddSubview(sad);
-            View.AddSubview(data);
-            View.AddSubview(close);
         }
         public override void ViewDidLayoutSubviews()
         {
@@ -124,8 +107,6 @@ namespace WhatDoBot.MvXForms.iOS
             nfloat w = View.Bounds.Width;
             load.Frame = new CGRect(10, 0, w - 20, h);
             sad.Frame = new CGRect(10, h, w - 20, h);
-            data.Frame = new CGRect(0, h*2, w , View.Bounds.Height - h*3);
-            close.Frame = new CGRect(50, h*3, w - 100, h);
         }
     }
 }
