@@ -33,6 +33,7 @@ namespace WhatDoBot.MvXForms.iOS
 
             if (Crashes.HasCrashedInLastSessionAsync().Result)
             {
+                sent.Task.Wait();
                 var sc = new SplashController();
                 sc.close.PrimaryActionTriggered += (o, e) => StartMvvMxForms();
                 var rep = Crashes.GetLastSessionCrashReportAsync().Result;
