@@ -104,7 +104,8 @@ namespace WhatDoBot.MvXForms.iOS
             {
                 TextAlignment = UITextAlignment.Left,
                 TextColor = UIColor.White,
-                Text = error
+                Text = error,
+                LineBreakMode = UILineBreakMode.CharacterWrap
             };
             ok = new UIButton();
             ok.SetTitle("Start", UIControlState.Normal);
