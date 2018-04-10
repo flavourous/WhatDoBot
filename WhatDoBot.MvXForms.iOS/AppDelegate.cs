@@ -33,13 +33,17 @@ namespace WhatDoBot.MvXForms.iOS
 
             if (Crashes.HasCrashedInLastSessionAsync().Result)
             {
-                var sc = new SplashController();
+                var sc = new SplashController
+                {
+                    error = Crashes.GetLastSessionCrashReportAsync().Result.Exception.InnerException.ToString(),
+                    start = StartMvvMxForms
+                };
                 Window.RootViewController = sc;
                 Window.MakeKeyAndVisible();
                 Task.Run(async () =>
                 {
                     var ss = await sent.Task ? "report sent" : "failed to send report";
-                    BeginInvokeOnMainThread(() => sc.load.Text = ss);
+                    InvokeOnMainThread(() => sc.load.Text = ss);
                 });
             }
             else StartMvvMxForms();
@@ -72,7 +76,10 @@ namespace WhatDoBot.MvXForms.iOS
     }
     public class SplashController : UIViewController
     {
-        public UILabel load, sad;
+        public String error;
+        public Action start;
+        public UILabel load, sad, data;
+        public UIButton ok;
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -93,12 +100,24 @@ namespace WhatDoBot.MvXForms.iOS
                 TextColor = UIColor.White,
                 Text = "(._.)"
             };
+            data = new UILabel
+            {
+                TextAlignment = UITextAlignment.Left,
+                TextColor = UIColor.White,
+                Text = error
+            };
+            ok = new UIButton();
+            ok.SetTitle("Start", UIControlState.Normal);
+            ok.PrimaryActionTriggered += (o, e) => start();
 
             load.Font = UIFont.BoldSystemFontOfSize(24f);
             sad.Font = UIFont.SystemFontOfSize(24f);
+            data.Font = UIFont.SystemFontOfSize(12f);
 
             View.AddSubview(load);
             View.AddSubview(sad);
+            View.AddSubview(data);
+            View.AddSubview(ok);
         }
         public override void ViewDidLayoutSubviews()
         {
@@ -107,6 +126,8 @@ namespace WhatDoBot.MvXForms.iOS
             nfloat w = View.Bounds.Width;
             load.Frame = new CGRect(10, 0, w - 20, h);
             sad.Frame = new CGRect(10, h, w - 20, h);
+            data.Frame = new CGRect(0, h*2, w, View.Bounds.Height - h*3);
+            ok.Frame = new CGRect(50, View.Bounds.Height - h, w - 100, h);
         }
     }
 }
