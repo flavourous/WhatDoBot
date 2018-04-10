@@ -35,7 +35,7 @@ namespace WhatDoBot.MvXForms.iOS
             {
                 var sc = new SplashController
                 {
-                    error = Crashes.GetLastSessionCrashReportAsync().Result.Exception.InnerException.ToString(),
+                    error = Crashes.GetLastSessionCrashReportAsync().Result.Exception.ToString(),
                     start = StartMvvMxForms
                 };
                 Window.RootViewController = sc;
