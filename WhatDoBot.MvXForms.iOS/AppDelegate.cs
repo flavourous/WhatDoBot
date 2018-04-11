@@ -33,15 +33,17 @@ namespace WhatDoBot.MvXForms.iOS
 
             if (Crashes.HasCrashedInLastSessionAsync().Result)
             {
+                var ex = Crashes.GetLastSessionCrashReportAsync().Result.Exception;
                 var sc = new SplashController
                 {
-                    error = Crashes.GetLastSessionCrashReportAsync().Result.Exception.ToString(),
+                    error = ex == null ? "NULL" : ex.ToString(),
                     start = StartMvvMxForms
                 };
                 Window.RootViewController = sc;
                 Window.MakeKeyAndVisible();
                 Task.Run(async () =>
                 {
+                    await Task.Delay(3000);
                     var ss = await sent.Task ? "report sent" : "failed to send report";
                     InvokeOnMainThread(() => sc.load.Text = ss);
                 });
@@ -60,18 +62,21 @@ namespace WhatDoBot.MvXForms.iOS
             return true;
         }
 
+        void Log(String l) => Console.WriteLine($"LOGHANDLE: {l}");
 
         void StartMvvMxForms()
         {
+            Log($"Starting mvx with window {Window}");
             var setup = new Setup(this, Window);
             setup.Initialize();
-
+            Log("Initialised setup");
             var startup = Mvx.Resolve<IMvxAppStart>();
+            Log($"Resolved appstart to {startup}");
             startup.Start();
-
+            Log("Loading xamarin from {setup.FormsApplication}");
             LoadApplication(setup.FormsApplication);
-
             Window.MakeKeyAndVisible();
+            Log("OK!");
         }
     }
     public class SplashController : UIViewController
