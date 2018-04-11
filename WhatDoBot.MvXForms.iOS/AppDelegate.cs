@@ -62,7 +62,7 @@ namespace WhatDoBot.MvXForms.iOS
             return true;
         }
 
-        void Log(String l) => Console.WriteLine($"LOGHANDLE: {l}");
+        void Log(String l) => AppCenterLog.Info("MyDebugLogHandle", l);
 
         void StartMvvMxForms()
         {
@@ -73,9 +73,13 @@ namespace WhatDoBot.MvXForms.iOS
             var startup = Mvx.Resolve<IMvxAppStart>();
             Log($"Resolved appstart to {startup}");
             startup.Start();
-            Log("Loading xamarin from {setup.FormsApplication}");
+            Log($"Loading xamarin from {setup.FormsApplication}");
             LoadApplication(setup.FormsApplication);
+            Log($"RootViewController is {Window.RootViewController}");
+            Log($"App.MainPage is {setup.FormsApplication.MainPage}");
             Window.MakeKeyAndVisible();
+            Log($"MainPageViewModel is {Mvx.Resolve<Core.ViewModels.MainPageViewModel>()}");
+            Log($"MainPage is {Mvx.Resolve<XForms.MainPage>()}");
             Log("OK!");
         }
     }
