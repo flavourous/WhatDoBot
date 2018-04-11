@@ -78,8 +78,8 @@ namespace WhatDoBot.MvXForms.iOS
             Log($"RootViewController is {Window.RootViewController}");
             Log($"App.MainPage is {setup.FormsApplication.MainPage}");
             Window.MakeKeyAndVisible();
-            Log($"MainPageViewModel is {Mvx.Resolve<Core.ViewModels.MainPageViewModel>()}");
-            Log($"MainPage is {Mvx.Resolve<XForms.MainPage>()}");
+            Log($"new MainPageViewModel is {new Core.ViewModels.MainPageViewModel(Mvx.Resolve<MvvmCross.Core.Navigation.IMvxNavigationService>())}");
+            Log($"new MainPage is {new XForms.MainPage()}");
             Log("OK!");
         }
     }
