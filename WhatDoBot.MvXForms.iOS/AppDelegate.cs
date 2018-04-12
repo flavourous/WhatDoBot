@@ -27,6 +27,7 @@ namespace WhatDoBot.MvXForms.iOS
             XForms.App.StartAppCenter();
             Distribute.DontCheckForUpdatesInDebug();
             AppDomain.CurrentDomain.UnhandledException += (o, e) => Console.WriteLine("Exception Raised{0}----------------{0}{1}", Environment.NewLine, e.ExceptionObject);
+            SQLitePCL.Batteries_V2.Init();
             Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
             Distribute.ReleaseAvailable = OnReleaseAvailable;
@@ -114,7 +115,8 @@ namespace WhatDoBot.MvXForms.iOS
                 TextAlignment = UITextAlignment.Left,
                 TextColor = UIColor.White,
                 Text = error,
-                LineBreakMode = UILineBreakMode.CharacterWrap
+                LineBreakMode = UILineBreakMode.CharacterWrap,
+                Lines = 100
             };
             ok = new UIButton();
             ok.SetTitle("Start", UIControlState.Normal);
