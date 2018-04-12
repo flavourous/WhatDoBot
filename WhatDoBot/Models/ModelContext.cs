@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +25,16 @@ namespace WhatDoBot
         public DbSet<LogModel> Logs { get; set; }
         public DbSet<UserModel> Users { get; set; }
         public DbSet<ConfigModel> Config { get; set; }
-        
-        public ModelContext()
+
+        readonly String userDataLocation;
+        public ModelContext(String userDataLocation)
         {
+            this.userDataLocation = userDataLocation;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=whatdo.db");
+            optionsBuilder.UseSqlite($"Data Source={Path.Combine(userDataLocation,"whatdo.db")}");
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -43,8 +46,8 @@ namespace WhatDoBot
             Start = Start.AddDays(week * 7);
             DateTime End = Start.AddDays(7);
             return (Logs.Where(x=>x.User.Id == user.Id)
-                       .Where(x => x.When >= Start && x.When <= End)
-                       .ToArray(),Start);
+                        .Where(x => x.When >= Start && x.When <= End)
+                        .ToArray(),Start);
         }
     }
 }

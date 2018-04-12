@@ -110,6 +110,11 @@ namespace WhatDoBot.MvXForms.UWP10
         }
     }
 
+    public class PlatformConfigurationService : IPlatformConfigurationService
+    {
+        public string UserDataLocation => ".";
+    }
+
     public class Setup : MvxFormsWindowsSetup
     {
         public Setup(Frame rootFrame, LaunchActivatedEventArgs e) : base(rootFrame, e)

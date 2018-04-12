@@ -35,14 +35,21 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
         public void RaiseCanExecuteChanged() => CanExecuteChanged(this, new EventArgs());
     }
 
+    public interface IPlatformConfigurationService
+    {
+        String UserDataLocation { get; }
+    }
+
     public class MainPageViewModel : MvxViewModel
     {
         private readonly ModelContext dal;
         private readonly WhatDoNoobotHost host;
         private readonly IMvxNavigationService navigationService;
-        public MainPageViewModel(IMvxNavigationService navigationService)
+        readonly IPlatformConfigurationService platformService;
+        public MainPageViewModel(IMvxNavigationService navigationService, IPlatformConfigurationService platformService)
         {
-            dal = new ModelContext();
+            this.platformService = platformService;
+            dal = new ModelContext(platformService.UserDataLocation);
             this.navigationService = navigationService;
             dal.Database.EnsureCreated();
             var configReader = new DbConfigReader(dal);

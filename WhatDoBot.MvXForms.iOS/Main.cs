@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UIKit;
+using WhatDoBot.MvXForms.Core.ViewModels;
 
 namespace WhatDoBot.MvXForms.iOS
 {
@@ -21,6 +22,11 @@ namespace WhatDoBot.MvXForms.iOS
             // you can specify it here.
             UIApplication.Main(args, null, "AppDelegate");
         }
+    }
+
+    public class PlatformConfigurationService : IPlatformConfigurationService
+    {
+        public string UserDataLocation => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
     }
 
     public class Setup : MvxFormsIosSetup
