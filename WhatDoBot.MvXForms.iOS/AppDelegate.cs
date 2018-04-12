@@ -4,6 +4,7 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
+using MvvmCross.Core.Navigation;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Forms.iOS;
 using MvvmCross.Platform;
@@ -11,6 +12,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UIKit;
+using WhatDoBot.MvXForms.Core.ViewModels;
 
 namespace WhatDoBot.MvXForms.iOS
 {
@@ -79,7 +81,7 @@ namespace WhatDoBot.MvXForms.iOS
             Log($"RootViewController is {Window.RootViewController}");
             Log($"App.MainPage is {setup.FormsApplication.MainPage}");
             Window.MakeKeyAndVisible();
-            Log($"new MainPageViewModel is { Mvx.IocConstruct<Core.ViewModels.MainPageViewModel>()}");
+            Log($"new MainPageViewModel is { new MainPageViewModel(Mvx.Resolve<IMvxNavigationService>(), new PlatformConfigurationService())}");
             Log($"new MainPage is {new XForms.MainPage()}");
             Log("OK!");
         }
