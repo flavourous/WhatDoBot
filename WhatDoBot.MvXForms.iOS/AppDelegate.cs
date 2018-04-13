@@ -50,6 +50,7 @@ namespace WhatDoBot.MvXForms.iOS
                     var ss = await sent.Task ? "report sent" : "failed to send report";
                     InvokeOnMainThread(() => sc.load.Text = ss);
                 });
+                return true;
             }
             else StartMvvMxForms();
             return base.FinishedLaunching(app, options);
