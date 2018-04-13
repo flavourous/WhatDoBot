@@ -75,6 +75,7 @@ namespace WhatDoBot.MvXForms.iOS
         protected override IMvxLogProvider CreateLogProvider()
         {
             return base.CreateLogProvider();
+            
         }
     }
 }

@@ -52,7 +52,7 @@ namespace WhatDoBot.MvXForms.iOS
                 });
             }
             else StartMvvMxForms();
-            return true;
+            return base.FinishedLaunching(app, options);
         }
 
         bool OnReleaseAvailable(ReleaseDetails releaseDetails)
@@ -65,25 +65,14 @@ namespace WhatDoBot.MvXForms.iOS
             return true;
         }
 
-        void Log(String l) => AppCenterLog.Info("MyDebugLogHandle", l);
-
         void StartMvvMxForms()
         {
-            Log($"Starting mvx with window {Window}");
             var setup = new Setup(this, Window);
             setup.Initialize();
-            Log("Initialised setup");
             var startup = Mvx.Resolve<IMvxAppStart>();
-            Log($"Resolved appstart to {startup}");
             startup.Start();
-            Log($"Loading xamarin from {setup.FormsApplication}");
             LoadApplication(setup.FormsApplication);
-            Log($"RootViewController is {Window.RootViewController}");
-            Log($"App.MainPage is {setup.FormsApplication.MainPage}");
             Window.MakeKeyAndVisible();
-            Log($"new MainPageViewModel is { new MainPageViewModel(Mvx.Resolve<IMvxNavigationService>(), new PlatformConfigurationService())}");
-            Log($"new MainPage is {new XForms.MainPage()}");
-            Log("OK!");
         }
     }
     public class SplashController : UIViewController
