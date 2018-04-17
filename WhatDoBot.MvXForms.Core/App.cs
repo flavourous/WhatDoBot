@@ -1,4 +1,5 @@
-﻿using MvvmCross.Core.ViewModels;
+﻿using MvvmCross.Core.Navigation;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
 using System;
@@ -8,6 +9,21 @@ using WhatDoBot.MvXForms.Core.ViewModels;
 
 namespace WhatDoBot.MvXForms.Core
 {
+    public class MyNavigationAppStart : IMvxAppStart
+    {
+        protected readonly IMvxNavigationService NavigationService;
+
+        public MyNavigationAppStart(IMvxNavigationService navigationService)
+        {
+            NavigationService = navigationService;
+        }
+
+        public void Start(object hint = null)
+        {
+            // in defulat implimentation we're not observing any errors :/
+            NavigationService.Navigate<MainPageViewModel>().Wait();
+        }
+    }
     public class App : MvxApplication
     {
         public override void Initialize()
@@ -17,7 +33,7 @@ namespace WhatDoBot.MvXForms.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            RegisterNavigationServiceAppStart<MainPageViewModel>();
+            RegisterCustomAppStart<MyNavigationAppStart>();
 
         }
     }
