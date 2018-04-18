@@ -1,9 +1,11 @@
 ﻿using MvvmCross.Core.Navigation;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using System.Linq;
 using MvvmCross.Platform.IoC;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using WhatDoBot.MvXForms.Core.ViewModels;
 
@@ -26,15 +28,20 @@ namespace WhatDoBot.MvXForms.Core
     }
     public class App : MvxApplication
     {
+        readonly Assembly[] extra;
+        public App(params Assembly[] extra)
+        {
+            this.extra = extra;
+        }
         public override void Initialize()
         {
             CreatableTypes()
+                .Concat(extra.SelectMany(CreatableTypes))
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
             RegisterCustomAppStart<MyNavigationAppStart>();
-
         }
     }
 }

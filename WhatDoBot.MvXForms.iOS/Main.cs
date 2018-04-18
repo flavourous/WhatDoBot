@@ -51,7 +51,7 @@ namespace WhatDoBot.MvXForms.iOS
 
         protected override IMvxApplication CreateApp()
         {
-            return new Core.App();
+            return new Core.App(typeof(PlatformConfigurationService).Assembly);
         }
 
         protected override IEnumerable<Assembly> GetViewModelAssemblies()
