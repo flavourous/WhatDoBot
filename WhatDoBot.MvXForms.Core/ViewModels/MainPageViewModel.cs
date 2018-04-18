@@ -1,4 +1,5 @@
-﻿using MvvmCross.Core.Navigation;
+﻿using Microsoft.AppCenter.Crashes;
+using MvvmCross.Core.Navigation;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using System;
@@ -68,6 +69,7 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
                 }
                 catch (Exception e)
                 {
+                    Crashes.TrackError(e);
                     setBotRun(false, "Error starting: " + e.Message);
                 }
             });
@@ -81,6 +83,7 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
                 }
                 catch (Exception e)
                 {
+                    Crashes.TrackError(e);
                     setBotRun(false, "Error stopping: " + e.Message);
                 }
             });
