@@ -2,6 +2,7 @@
 using MvvmCross.Core.Navigation;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using Noobot.Core.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -44,20 +45,17 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
     public class MainPageViewModel : MvxViewModel
     {
         private readonly ModelContext dal;
-        private readonly WhatDoNoobotHost host;
+        private readonly IWhatDoNoobotHost host;
         private readonly IMvxNavigationService navigationService;
-        readonly IPlatformConfigurationService platformService;
-        public MainPageViewModel(IMvxNavigationService navigationService, IPlatformConfigurationService platformService)
+        public MainPageViewModel(IMvxNavigationService navigationService, IConfigContainer configReader, IHostContainer hostContainer, IDalContainer dal)
         {
-            this.platformService = platformService;
-            dal = new ModelContext(platformService.UserDataLocation);
+            this.dal = dal.Context;
             this.navigationService = navigationService;
-            dal.Database.EnsureCreated();
-            var configReader = new DbConfigReader(dal);
-            SetBotKey = new WhatDoCommand(async k => await configReader.SetBotKey(k as String));
-            host = new WhatDoNoobotHost(configReader);
+            this.host = hostContainer.Host;
+
             ModelContext.Changed += GetUsers; GetUsers();
             ViewUserCommand = new MvxAsyncCommand<UserViewModel>(async g => await navigationService.Navigate(g));
+            SetBotKey = new WhatDoCommand(async k => await configReader.Reader.SetBotKey(k as String));
 
             StartBot = new WhatDoCommand(async o =>
             {

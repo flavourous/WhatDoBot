@@ -2,9 +2,8 @@
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using System.Linq;
+using LetsAgree.IOC.Extensions;
 using MvvmCross.Platform.IoC;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using WhatDoBot.MvXForms.Core.ViewModels;
@@ -41,6 +40,11 @@ namespace WhatDoBot.MvXForms.Core
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
+            Mvx.LazyConstructAndRegisterSingleton(() => new CreatableTypesContainer(CreatableTypes));
+            Mvx.LazyConstructAndRegisterSingleton<IDalContainer, DalContainer>();
+            Mvx.LazyConstructAndRegisterSingleton<IConfigContainer, ConfigContainer>();
+            Mvx.LazyConstructAndRegisterSingleton<IHostContainer, HostContainer>();
+            
             RegisterCustomAppStart<MyNavigationAppStart>();
         }
     }
