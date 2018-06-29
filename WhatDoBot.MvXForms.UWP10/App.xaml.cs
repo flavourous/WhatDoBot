@@ -138,7 +138,7 @@ namespace WhatDoBot.MvXForms.UWP10
 
         protected override MvxFormsApplication CreateFormsApplication() => new XForms.App();
 
-        protected override IMvxApplication CreateApp() => new Core.App();
+        protected override IMvxApplication CreateApp() => new Core.App(typeof(PlatformConfigurationService).Assembly);
     }
 
 }

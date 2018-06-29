@@ -2,7 +2,9 @@
 using MvvmCross.Core.Navigation;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using Noobot.Core;
 using Noobot.Core.Configuration;
+using Noobot.Core.DependencyResolution;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -45,30 +47,35 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
     public class MainPageViewModel : MvxViewModel
     {
         private readonly ModelContext dal;
-        private readonly IWhatDoNoobotHost host;
+        private readonly INoobotCore host;
         private readonly IMvxNavigationService navigationService;
-        public MainPageViewModel(IMvxNavigationService navigationService, IConfigContainer configReader, IHostContainer hostContainer, IDalContainer dal)
+        private readonly IConfigContainer config;
+        public MainPageViewModel(IMvxNavigationService navigationService, IConfigContainer config, INoobotCore host, IDalContainer dal)
         {
             this.dal = dal.Context;
             this.navigationService = navigationService;
-            this.host = hostContainer.Host;
+            this.host = host;
 
             ModelContext.Changed += GetUsers; GetUsers();
             ViewUserCommand = new MvxAsyncCommand<UserViewModel>(async g => await navigationService.Navigate(g));
-            SetBotKey = new WhatDoCommand(async k => await configReader.Reader.SetBotKey(k as String));
+            SetBotKey = new WhatDoCommand(async k => await config.Reader.SetBotKey(k as String));
 
             StartBot = new WhatDoCommand(async o =>
             {
                 setBotRun(null, "Starting bot");
                 try
                 {
-                    await host.Start();
+                    await host.Connect();
                     setBotRun(true, "Bot running");
                 }
-                catch (Exception e)
+                //catch (Exception e)
+                //{
+                //    Crashes.TrackError(e);
+                //    setBotRun(false, "Error starting: " + e.Message);
+                //}
+                finally
                 {
-                    Crashes.TrackError(e);
-                    setBotRun(false, "Error starting: " + e.Message);
+
                 }
             });
             StopBot = new WhatDoCommand(async o =>
@@ -76,7 +83,7 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
                 setBotRun(null, "Stopping bot");
                 try
                 {
-                    host.Stop();
+                    host.Disconnect();
                     setBotRun(false, "Stopped");
                 }
                 catch (Exception e)

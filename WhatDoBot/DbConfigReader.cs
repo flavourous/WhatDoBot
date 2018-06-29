@@ -28,6 +28,7 @@ namespace WhatDoBot
         public bool HelpEnabled => true;
         public bool StatsEnabled => true;
         public bool AboutEnabled => true;
+        public bool MockEnabled => false;
 
         public T GetConfigEntry<T>(string entryName)
         {

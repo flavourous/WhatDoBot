@@ -10,14 +10,6 @@ using System.Text;
 
 namespace WhatDoBot
 {
-    public class WhatDoBotConfig : ConfigurationBase
-    {
-        public WhatDoBotConfig()
-        {
-            UseMiddleware<WhatDoBotLogMiddleware>();
-        }
-    }
-
     public class WhatDoBotLogMiddleware : MiddlewareBase
     {
         readonly ModelContext ctx;
