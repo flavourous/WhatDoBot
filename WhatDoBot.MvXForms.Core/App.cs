@@ -2,14 +2,14 @@
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using System.Linq;
-using LetsAgree.IOC.Extensions;
+using System.IoC.Extensions;
 using MvvmCross.Platform.IoC;
 using System.Reflection;
 using System.Text;
 using WhatDoBot.MvXForms.Core.ViewModels;
 using Noobot.Core.Configuration;
-using LetsAgree.IOC.Extensions.MvxSimpleShim;
-using LetsAgree.IOC.MvxSimpleShim;
+using System.IoC.Extensions.MvxSimpleShim;
+using System.IoC.MvxSimpleShim;
 using Noobot.Core.Logging;
 using Common.Logging;
 using SlackConnector;

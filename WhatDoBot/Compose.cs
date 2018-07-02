@@ -1,5 +1,5 @@
 ﻿using Common.Logging;
-using LetsAgree.IOC;
+using System.IoC;
 using Noobot.Core;
 using Noobot.Core.Configuration;
 using Noobot.Core.DependencyResolution;
