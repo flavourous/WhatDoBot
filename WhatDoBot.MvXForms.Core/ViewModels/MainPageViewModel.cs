@@ -68,11 +68,11 @@ namespace WhatDoBot.MvXForms.Core.ViewModels
                     await host.Connect();
                     setBotRun(true, "Bot running");
                 }
-                //catch (Exception e)
-                //{
-                //    Crashes.TrackError(e);
-                //    setBotRun(false, "Error starting: " + e.Message);
-                //}
+                catch (Exception e)
+                {
+                    Crashes.TrackError(e);
+                    setBotRun(false, "Error starting: " + e.Message);
+                }
                 finally
                 {
 

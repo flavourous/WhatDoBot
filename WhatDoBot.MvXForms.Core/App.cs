@@ -51,7 +51,7 @@ namespace WhatDoBot.MvXForms.Core
             Mvx.LazyConstructAndRegisterSingleton<IConfigReader, ConfigContainer>();
             Mvx.LazyConstructAndRegisterSingleton<IConfigContainer, ConfigContainer>();
             Mvx.LazyConstructAndRegisterSingleton<ILog, EmptyLogger>();
-            Mvx.LazyConstructAndRegisterSingleton<ISlackConnector, FakeSlack>();
+//            Mvx.LazyConstructAndRegisterSingleton<ISlackConnector, FakeSlack>();
 
             // ModelContext is injected on a IMiddleware and has a not-so-DI friendly constructor.
             Mvx.LazyConstructAndRegisterSingleton(() => Mvx.Resolve<IDalContainer>().Context);
